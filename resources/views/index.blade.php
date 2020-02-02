@@ -15,12 +15,13 @@
       @else
 <div id="{{sprintf('%03d', $loop->iteration)}}" class="items">
       @endif
+      <p>
       @foreach($content as $row)
         @if(!$loop->last)
   {{$row}}
         @else
-</div><div class="date">
-  {{$year . $row}}
+</p></div><div class="date">
+  <p>{{$year . $row}}</p>
 </div>
         @endif
       @endforeach
