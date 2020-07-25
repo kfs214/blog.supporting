@@ -7,6 +7,10 @@
   <div class="content">
     <textarea name="code">{{trim($code)}}</textarea>
   </div>
+  <h3>見出し</h3>
+  <div class="content">
+    <textarea name="headline" class="short">{{trim($headline)}}</textarea>
+  </div>
 @endif
 
 <div class="content">

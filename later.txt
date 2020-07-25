@@ -4,4 +4,4 @@ HAjizome  #D9A62E
   FacebookOAuth的なので連携してユーザーさんも使えるようにする。
     週1まで無料？メールとTwitterにも対応？wordpressなら外部DBでも対応？
   powered by KFS214 with laravelてきなクレジット
-  publicをpublicという名前でシンボリックリンク。assetsでpublic/publicを読ませる
+  blog.supporting 抜粋

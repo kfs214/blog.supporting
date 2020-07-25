@@ -73,11 +73,14 @@ class SupportController extends Controller
       unset($content);
 
       $code = '';
+      $headline = '';
 
       // コード生成
       // まず見出しリンク
+      // 「抜粋」用の文字列も
       foreach ($titles as $content_no => $title) {
         $code .= '<a href="#' . $content_no . '" class="eyecatch">' . $title . "</a>\n";
+        $headline .= $title . '＼';
       }
       $code .= "<!--more-->\n\n\n";
 
@@ -86,7 +89,7 @@ class SupportController extends Controller
         $code .= $content;
       }
 
-      return view('index', compact('code'));
+      return view('index', compact('code', 'headline'));
     }
 
 }
