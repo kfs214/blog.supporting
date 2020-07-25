@@ -1,0 +1,11 @@
+.theme, .theme li, .scroll-table::-webkit-scrollbar-thumb{
+    background-color: #D9A62E;
+}
+
+li:hover{
+	background: #FDD876;
+}
+
+textarea{
+  height: 20em;
+}

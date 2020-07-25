@@ -11,5 +11,5 @@
 |
 */
 
-Route::get('/', 'SupportController@index');
+Route::get('/', 'SupportController@index')->name('tags');
 Route::post('/', 'SupportController@support');
