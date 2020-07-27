@@ -13,3 +13,6 @@
 
 Route::get('/', 'SupportController@index')->name('tags');
 Route::post('/', 'SupportController@support');
+
+Route::get('test', 'PostController@testForm')->name('test');
+Route::post('test', 'PostController@test');

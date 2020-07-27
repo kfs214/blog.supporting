@@ -1,7 +1,5 @@
 HAjizome  #D9A62E
-  ファイルに保存？
   「N」日前、週間前、ヶ月前、年前、投稿に対応。
   FacebookOAuth的なので連携してユーザーさんも使えるようにする。
     週1まで無料？メールとTwitterにも対応？wordpressなら外部DBでも対応？
   powered by KFS214 with laravelてきなクレジット
-  blog.supporting 抜粋

@@ -58,7 +58,7 @@ img{
 }
 
 .content {
-  margin: 0 auto 20pt auto;
+  margin: 0 auto 2em auto;
   width: 100%;
 }
 
@@ -105,4 +105,9 @@ img{
 
 .header ul{
   justify-content: flex-end;
+}
+
+.invalid-feedback{
+  color: #E2421F;
+  font-weight: bold;
 }

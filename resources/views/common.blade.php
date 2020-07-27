@@ -15,6 +15,7 @@
     <a class="title" href="{{ route('tags') }}">{{ config('app.name') }}</a>
     <ul class="flex-container">
       <a href="{{ route('tags') }}"><li>下書きを加工</li></a>
+      <a href="{{ route('test') }}"><li>テスト</li></a>
     </ul>
   </div>
 
@@ -30,5 +31,18 @@
         </p>
       </div>
   </div>
+
+  @if(session('status'))
+    <script>
+        alert('{{session('status')}}');
+    </script>
+  @endif
+
+  @if($errors->any())
+    <script>
+        alert('入力に誤りがあります');
+    </script>
+  @endif
+
 </body>
 </html>
