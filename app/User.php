@@ -11,13 +11,35 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
+     * リレーション系
+     */
+    public function urls(){
+      return $this->hasMany('App\Url');
+    }
+
+    public function frequencies(){
+      return $this->hasMany('App\Frequency');
+    }
+
+    public function emails(){
+      return $this->hasMany('App\Email');
+    }
+
+    public function accounts(){
+      return $this->hasMany('App\Account');
+    }
+
+
+    /**
+     * 元からあった系
+     */
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
