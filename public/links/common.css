@@ -24,6 +24,10 @@ input, select{
     border-radius: 5px;
 }
 
+input[type="checkbox"] {
+  width: 2em;
+}
+
 textarea, button, input, select{
     font-size: 1em;
 }
@@ -60,6 +64,14 @@ img{
 .content {
   margin: 0 auto 2em auto;
   width: 100%;
+}
+
+.row{
+  margin-bottom: 0.7em;
+}
+
+.row h3{
+  margin-bottom: 0;
 }
 
 .header, .footer{

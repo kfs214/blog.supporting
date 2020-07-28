@@ -16,6 +16,13 @@
     <ul class="flex-container">
       <a href="{{ route('tags') }}"><li>下書きを加工</li></a>
       <a href="{{ route('test') }}"><li>テスト</li></a>
+      @auth
+        <a href="{{ route('settings') }}"><li>設定</li></a>
+        <a href="{{ route('logout') }}"><li>ログアウト</li></a>
+      @else
+        <a href="{{ route('login') }}"><li>ログイン</li></a>
+        <a href="{{ route('register') }}"><li>新規登録</li></a>
+      @endauth
     </ul>
   </div>
 

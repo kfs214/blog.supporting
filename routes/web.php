@@ -11,6 +11,15 @@
 |
 */
 
+Auth::routes(['verify' => true]);
+
+Route::get('logout', 'HomeController@logout')->name('logout');
+Route::get('discard', 'HomeController@discard')->name('discard');
+
+
+Route::get('settings', 'HomeController@showSettings')->name('settings');
+Route::post('settings', 'HomeController@updateSettings');
+
 Route::get('/', 'SupportController@index')->name('tags');
 Route::post('/', 'SupportController@support');
 
