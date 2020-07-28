@@ -1,6 +1,5 @@
 現在
-  register故障探求。送ってみな。
-  valiidation of password. able to use ./-_ 
+  function settings(), view for it.
 
 
 HAjizome  #D9A62E

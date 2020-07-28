@@ -37,6 +37,12 @@ class HomeController extends Controller
       return redirect(route('tags'), 303)->with('status', 'ログアウトしました');
     }
 
+
+    public function showSettings(){
+
+      //dd(Auth::user()->hasVerifiedEmail());
+    }
+
     /**
      * Show the application dashboard.
      *
