@@ -27,6 +27,10 @@ class Frequency extends Model
     return $this->accounts()->get(['account_id'])->pluck('account_id');
   }
 
+  public function getUrlAttribute(){
+    return $this->url()->first(['url'])->url;
+  }
+
   // public function emails(){
   //   return $this->hasManyThrough(
   //     'App\Email',

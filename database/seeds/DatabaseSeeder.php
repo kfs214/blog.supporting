@@ -15,12 +15,17 @@ class DatabaseSeeder extends Seeder
         //自分のアカウントを作成、パスワードは'password'
         factory(App\User::class)->create([
           'posted_count' => 10, 'plan' => 'standard',
-          'email' => 'info@kfs214.net',
+          'email' => '1@te.st',
         ]);
 
         factory(App\User::class)->create([
           'posted_count' => 10, 'plan' => 'free',
-          'email' => '2674je@gmail.com',
+          'email' => '2@te.st',
+        ]);
+
+        factory(App\User::class)->create([
+          'posted_count' => 10, 'plan' => 'standard',
+          'email' => '3@te.st',
         ]);
 
         //自分以外に10人のユーザーを作成

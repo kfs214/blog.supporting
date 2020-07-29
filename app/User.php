@@ -31,6 +31,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     /**
+     * アクセサ
+     */
+    public function getUrlsAttribute(){
+      return $this->urls()->get(['url'])->pluck('url');
+    }
+
+
+    /**
      * 元からあった系
      */
 
