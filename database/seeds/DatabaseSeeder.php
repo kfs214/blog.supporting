@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Frequency;
 
 class DatabaseSeeder extends Seeder
 {
@@ -63,5 +64,12 @@ class DatabaseSeeder extends Seeder
 
         //投稿設定10件、user_id 1番さんだけ
         factory(App\Frequency::class, 10)->create();
+
+        // account_frequency3件、user_id 1番さんだけ
+        $frequency = Frequency::find(1);
+
+        for($i = 1; $i <= 3; $i++){
+          $frequency->accounts()->attach($i);
+        }
     }
 }

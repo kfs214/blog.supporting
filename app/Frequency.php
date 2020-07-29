@@ -14,19 +14,29 @@ class Frequency extends Model
   }
 
   public function accounts(){
-    return $this->hasMany('App\Account');
+    return $this->belongsToMany('App\Account');
   }
 
-  public function emails(){
-    return $this->hasManyThrough(
-      'App\Email',
-      'App\Account',
-      'frequency_id', // accountsテーブルの外部キー
-      'group',        // emailsテーブルの外部キー
-      'id',           // freqテーブルのローカルキー
-      'account'       // accountsテーブルのローカルキー
-    );
+  protected $with = 'url:id,url';
+
+
+  /**
+   * アクセサ
+   */
+  public function getAccountIdsAttribute(){
+    return $this->accounts()->get(['account_id'])->pluck('account_id');
   }
+
+  // public function emails(){
+  //   return $this->hasManyThrough(
+  //     'App\Email',
+  //     'App\Account',
+  //     'frequency_id', // accountsテーブルの外部キー
+  //     'group',        // emailsテーブルの外部キー
+  //     'id',           // freqテーブルのローカルキー
+  //     'account'       // accountsテーブルのローカルキー
+  //   );
+  // }
 
 
   /**

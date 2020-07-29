@@ -39,8 +39,9 @@ class HomeController extends Controller
 
 
     public function showSettings(){
+      $user = Auth::user();
 
-      //dd(Auth::user()->hasVerifiedEmail());
+      return view('settings', compact('user'));
     }
 
     /**

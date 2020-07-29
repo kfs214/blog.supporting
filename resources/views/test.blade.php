@@ -3,7 +3,6 @@
 
 
 @section('content')
-
 <div class="content">
   <form method="post">
     @csrf
