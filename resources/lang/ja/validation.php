@@ -13,7 +13,7 @@ return [
     */
 
     'accepted'        => ':attributeを承認してください。',
-    'active_url'      => ':attributeは、有効なURLではありません。',
+    'active_url'      => '有効なURLではありません。',
     'after'           => ':attributeには、:dateより後の日付を指定してください。',
     'after_or_equal'  => ':attributeには、:date以降の日付を指定してください。',
     'alpha'           => ':attributeには、アルファベッドのみ使用できます。',

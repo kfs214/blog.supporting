@@ -1,3 +1,4 @@
+/* 全般系 */
 html {
   font-size: 13pt;
   font-family: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','Yu Gothic UI',sans-serif;
@@ -7,6 +8,54 @@ body {
   margin: 0;
 }
 
+:root {
+  --main-bg-color: #CCC;
+}
+
+
+/* レイアウト系 */
+.header, .footer{
+  width: 98%;
+  font-size: 0.8em;
+  padding: 1%;
+}
+
+.title{
+  font-size: 1.5em;
+  padding: 0.3em 0.3em 0.3em 0;
+  display: inline-block;
+}
+
+.header{
+  margin-bottom: 20pt;
+}
+
+.footer{
+  margin-top: 40pt;
+}
+
+.header ul{
+  margin: 0;
+  padding: 0;
+}
+
+.header li{
+  text-align:center;
+  border-left:1px solid white;
+  padding: 0.3em;
+}
+
+.header li, .header a{
+  list-style: none;
+  text-decoration: none;
+}
+
+.header ul{
+  justify-content: flex-end;
+}
+
+
+/* 要素系 */
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -22,6 +71,10 @@ input, select{
     width: 96%;
     max-width: 160px;
     border-radius: 5px;
+}
+
+input[type="checkbox"] {
+  width: 2em;
 }
 
 textarea, button, input, select{
@@ -52,57 +105,36 @@ img{
   width: 100%;
 }
 
+.invalid-feedback{
+  color: #E2421F;
+  font-weight: bold;
+}
+
+
+/* div系 */
 .container {
   margin: 0 auto;
   width: 98%;
 }
 
 .content {
-  margin: 0 auto 20pt auto;
+  margin: 0 auto 2em auto;
   width: 100%;
 }
 
-.header, .footer{
-  width: 98%;
-  font-size: 0.8em;
-  padding: 1%;
+.item{
+  box-shadow: 0 0 10px 1px var(--main-bg-color);
 }
 
-.title{
-  font-size: 1.5em;
-  padding: 0.3em 0.3em 0.3em 0;
-  display: inline-block;
+.row{
+  margin-bottom: 0.7em;
 }
 
-.header{
-  margin-bottom: 20pt;
-}
-
-.footer{
-  margin-top: 40pt;
+.row h3{
+  margin-bottom: 0;
 }
 
 .flex-container{
   display: flex;
   flex-wrap:wrap;
-}
-
-.header ul{
-  margin: 0;
-  padding: 0;
-}
-
-.header li{
-  text-align:center;
-  border-left:1px solid white;
-  padding: 0.3em;
-}
-
-.header li, .header a{
-  list-style: none;
-  text-decoration: none;
-}
-
-.header ul{
-  justify-content: flex-end;
 }

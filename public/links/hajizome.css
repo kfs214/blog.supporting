@@ -1,5 +1,9 @@
+:root {
+  --main-bg-color: #D9A62E;
+}
+
 .theme, .theme li, .scroll-table::-webkit-scrollbar-thumb{
-    background-color: #D9A62E;
+    background-color: var(--main-bg-color);
 }
 
 li:hover{
@@ -12,4 +16,8 @@ textarea{
 
 .short{
   height: 3em;
+}
+
+.item{
+  box-shadow: 0 0 10px 1px var(--main-bg-color);
 }
