@@ -19,11 +19,6 @@ class SupportController extends Controller
 
       //各コンテンツについて処理
       foreach($contents as $content_no => &$content){
-        // 下処理。#5,#6の前に空白行1行で統制。
-        $content = str_ireplace('#5', "\n\n#5", $content);
-        $content = str_ireplace('#6', "\n\n#6", $content);
-        $content = preg_replace("/\n\n+/", "\n\n", $content);
-
         // 最後の改行を除去、$date保存
         $content = trim($content);
         $date = trim(strrchr($content, "\n"));
@@ -45,44 +40,46 @@ class SupportController extends Controller
             continue;
           }
 
-          $heading = '';
-
           // 第1parならclass="top"
           $par_class = $par_no == 1 ? ' class="top"' : '';
 
           //#5, #6を<h5><h6>タグに変換。
-          if(preg_match("/(#5|#6)/", $par)){
-              $heading = strstr($par, "\n", true);
-            if(mb_strpos($par, '#5') !== false){
-              $heading = preg_replace("/#5\ */", "<h5$par_class>", $heading) . "</h5>\n";
-            }elseif(mb_strpos($par, '#6') !== false){
-              $heading = preg_replace("/#6\ */", "<h6$par_class>", $heading) . "</h6>\n";
+          while(true){
+            $heading = strstr($par, "\n", true);
+
+            if(!preg_match("/(#5|#6)/", $heading)){
+              break;
             }
-            $par = strstr($par, "\n");
+
+            if(mb_strpos($heading, '#5') !== false){
+              $temp_content .= preg_replace("/#5\ */", "<h5$par_class>", $heading) . "</h5>\n";
+            }elseif(mb_strpos($heading, '#6') !== false){
+              $temp_content .= preg_replace("/#6\ */", "<h6$par_class>", $heading) . "</h6>\n";
+            }
+
+            $par = trim(strstr($par, "\n"));
           }
 
           // nl2br
-          $par = str_replace("\n", "<br>\n", trim($par));
-
-          $temp_content .= $heading . "<p>\n" . $par . "\n</p>\n\n";
+          $temp_content .= "<p>\n" . str_replace("\n", "<br>\n", trim($par)) . "\n</p>\n\n";
         }
 
-        $content = $temp_content .  '</div><div class="date">' . $request->year . $date . "</div>\n\n\n";
+        $content = $temp_content . '</div><div class="date">' . $request->year . $date . "</div>\n\n\n";
       }
 
       unset($content);
 
-      $code = '';
-      $headline = '';
-
       // コード生成
       // まず見出しリンク
       // 「抜粋」用の文字列も
+      $code = '';
+      $headline = '';
+
       foreach ($titles as $content_no => $title) {
-        $code .= '<a href="#' . $content_no . '" class="eyecatch">' . $title . "</a>\n";
-        $headline .= $title . '＼';
+        $code .= '<a href="#' . $content_no . '" class="eyecatch">' . $title . "</a>";
+        $headline .= $title . '／';
       }
-      $code .= "<!--more-->\n\n\n";
+      $code .= "\n</div>\n\n<!--more-->\n\n\n";
 
       // 本文
       foreach($contents as $content){
