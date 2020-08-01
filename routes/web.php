@@ -16,9 +16,21 @@ Auth::routes(['verify' => true]);
 Route::get('logout', 'HomeController@logout')->name('logout');
 Route::get('discard', 'HomeController@discard')->name('discard');
 
+Route::prefix('settings')->as('settings.')->group(function(){
+  Route::get('', 'HomeController@showSettings')->name('frequency');
+  Route::post('', 'HomeController@updateSettings');
 
-Route::get('settings', 'HomeController@showSettings')->name('settings');
-Route::post('settings', 'HomeController@updateSettings');
+  Route::post('url', 'HomeController@updateUrlSettings')->name('url');
+
+  Route::get('account', 'HomeController@showAccountSettings')->name('account');
+  Route::post('account', 'HomeController@updateAccountSettings');
+
+  Route::get('email', 'HomeController@showEmailSettings')->name('email');
+  Route::post('email', 'HomeController@updateEmailSettings');
+
+  Route::get('plan', 'HomeController@showPlans')->name('plan');
+  Route::post('plan', 'HomeController@updatePlans');
+});
 
 Route::get('/', 'SupportController@index')->name('tags');
 Route::post('/', 'SupportController@support');

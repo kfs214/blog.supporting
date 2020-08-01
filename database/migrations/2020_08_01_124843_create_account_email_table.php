@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountFrequencyTable extends Migration
+class CreateAccountEmailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateAccountFrequencyTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_frequency', function (Blueprint $table) {
+        Schema::create('account_email', function (Blueprint $table) {
             $table->bigInteger('account_id')->unsigned();
-            $table->bigInteger('frequency_id')->unsigned();
-            $table->primary(['account_id', 'frequency_id']);
+            $table->bigInteger('email_id')->unsigned();
+            $table->primary(['account_id', 'email_id']);
 
             $table->foreign('account_id')
               ->references('id')
               ->on('accounts')
               ->onDelete('cascade');
 
-            $table->foreign('frequency_id')
+            $table->foreign('email_id')
               ->references('id')
-              ->on('frequencies')
+              ->on('emails')
               ->onDelete('cascade');
         });
     }
@@ -37,6 +37,6 @@ class CreateAccountFrequencyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_frequency');
+        Schema::dropIfExists('account_email');
     }
 }

@@ -1,12 +1,18 @@
 @extends('common')
-@section('title', '設定')
+@section('title', '投稿設定を管理する')
 
 
 @section('content')
 <div class="content">
   <h2>@yield('title')</h2>
+  <h3>その他の設定</h3>
+  <ul>
+    <a href="{{route('test')}}"><li>投稿を取得するURLを管理する</li></a>
+    <a href="{{route('settings.account')}}"><li>投稿を共有するアカウントとメールアドレスを管理する</li></a>
+  </ul>
+
   <h3>投稿設定を追加</h3>
-  <div class="content item">
+  <div class="content">
     @if($user->urls->count() && $user->accounts->count())
       <form method="POST">
         @csrf
@@ -32,25 +38,30 @@
 
           <div class="row">
             @foreach($user->accounts as $account)
-              <label><input type="checkbox" name="enabled" value="{{$account->id}}">{{$account->type}}:{{$account->account}}</label>
+              <label><input type="checkbox" name="enabled" value="{{$account->id}}">{{$account->type}}/{{$account->account}}</label>
             @endforeach
           </div>
         </form>
 
     @else
-      @if($user->urls->count())
-        <a href="{{route('settings.accounts')}}" target="_blank">
-          <span class="invalid-feedback">
-              <strong>先に共有先のアカウントを設定してください。</strong>
-          </span>
-        </a>
-      @else
-        <a href="{{route('settings.url')}}" target="_blank">
-          <span class="invalid-feedback">
-              <strong>先にURLを設定してください。</strong>
-          </span>
-        </a>
-      @endunless
+      @if(!$user->urls->count())
+        <div class="row">
+          <a href="{{route('settings.url')}}" target="_blank">
+            <span class="invalid-feedback">
+                <strong>先にURLを設定してください。</strong>
+            </span>
+          </a>
+        </div>
+      @endif
+      @if(!$user->accounts->count())
+        <div class="row">
+          <a href="{{route('settings.account')}}" target="_blank">
+            <span class="invalid-feedback">
+                <strong>先に共有先のアカウントを設定してください。</strong>
+            </span>
+          </a>
+        </div>
+      @endif
     @endif
   </div>
 

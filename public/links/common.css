@@ -74,11 +74,15 @@ input, select{
 }
 
 input[type="checkbox"] {
-  width: 2em;
+  width: 1em;
 }
 
 textarea, button, input, select{
-    font-size: 1em;
+  font-size: 1em;
+}
+
+label{
+  display: inline-block;
 }
 
 textarea{
@@ -98,7 +102,7 @@ a, a:hover, button, button:hover, li, li:hover{
 }
 
 a {
-color: #008DBD;
+  color: #008DBD;
 }
 
 img{

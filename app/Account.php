@@ -13,6 +13,10 @@ class Account extends Model
      return $this->belongsToMany('App\Frequency');
     }
 
+    public function emails(){
+     return $this->belongsToMany('App\Email');
+    }
+
 
     /**
     * 設定系

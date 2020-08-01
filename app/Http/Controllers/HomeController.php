@@ -17,6 +17,7 @@ class HomeController extends Controller
         $this->middleware('verified')->except('discard');
     }
 
+
     /**
      * 認証・ログイン系
      */
@@ -38,10 +39,56 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * 設定系
+     */
     public function showSettings(){
       $user = Auth::user();
 
-      return view('settings', compact('user'));
+      return view('settings.frequency', compact('user'));
+    }
+
+    public function updateSettings(){
+      dd($request->input());
+      $user = Auth::user();
+
+      return view('settings.frequency', compact('user'));
+    }
+
+
+    public function updateUrlSettings(){
+      dd($request->input());
+      $user = Auth::user();
+
+      return view('settings.url', compact('user'));
+    }
+
+
+    public function showAccountSettings(){
+      $user = Auth::user();
+
+      return view('settings.account', compact('user'));
+    }
+
+    public function updateAccountSettings(){
+      dd($request->input());
+      $user = Auth::user();
+
+      return view('settings.account', compact('user'));
+    }
+
+
+    public function showEmailSettings(){
+      $user = Auth::user();
+
+      return view('settings.email', compact('user'));
+    }
+
+    public function updateEmailSettings(){
+      dd($request->input());
+      $user = Auth::user();
+
+      return view('settings.email', compact('user'));
     }
 
     /**

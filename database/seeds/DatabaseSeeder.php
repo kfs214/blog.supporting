@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Account;
+use App\Email;
 use App\Frequency;
 
 class DatabaseSeeder extends Seeder
@@ -28,7 +30,7 @@ class DatabaseSeeder extends Seeder
           'email' => '3@te.st',
         ]);
 
-        //自分以外に10人のユーザーを作成
+        //その他に10人のユーザーを作成
         factory(App\User::class, 10)->create();
 
         //メルマガ送信先100
@@ -36,6 +38,27 @@ class DatabaseSeeder extends Seeder
 
         //取得するURL10
         factory(App\Url::class, 10)->create();
+
+        //メール配信
+        factory(App\Account::class)->create([
+          'user_id' => 2,
+          'type' => 'email', 'account' => 'a'
+        ]);
+
+        factory(App\Account::class)->create([
+          'user_id' => 2,
+          'type' => 'email', 'account' => 'b'
+        ]);
+
+        factory(App\Account::class)->create([
+          'user_id' => 3,
+          'type' => 'email', 'account' => 'a'
+        ]);
+
+        factory(App\Account::class)->create([
+          'user_id' => 3,
+          'type' => 'email', 'account' => 'b'
+        ]);
 
         //SNSアカウントを10件ずつ作成
         factory(App\Account::class, 10)->create([
@@ -46,35 +69,23 @@ class DatabaseSeeder extends Seeder
           'type' => 'twitter',
         ]);
 
-        //メール配信
-        factory(App\Account::class)->create([
-          'user_id' => 1,
-          'type' => 'email', 'account' => 'a'
-        ]);
-
-        factory(App\Account::class)->create([
-          'user_id' => 1,
-          'type' => 'email', 'account' => 'b'
-        ]);
-
-        factory(App\Account::class)->create([
-          'user_id' => 2,
-          'type' => 'email', 'account' => 'a'
-        ]);
-
-        factory(App\Account::class)->create([
-          'user_id' => 2,
-          'type' => 'email', 'account' => 'b'
-        ]);
-
-        //投稿設定10件、user_id 1番さんだけ
+        //投稿設定10件、user_id 2番さんだけ
         factory(App\Frequency::class, 10)->create();
 
-        // account_frequency3件、user_id 1番さんだけ
-        $frequency = Frequency::find(1);
+        // account_frequency3件、user_id 2番さんだけ
+        $account = Account::find(2);
 
         for($i = 1; $i <= 3; $i++){
-          $frequency->accounts()->attach($i);
+          $account->frequencies()->attach($i);
         }
+
+        // account_email3件、user_id 2番さんだけ
+        $emails = Email::where('user_id', 2);
+
+        foreach($emails as $key => $email){
+          $email->accounts()->attach($key % 2 + 1);
+        }
+
+        $emails->first()->accounts()->sync([1, 2]);
     }
 }

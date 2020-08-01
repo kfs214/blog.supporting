@@ -6,7 +6,7 @@ use App\Frequency;
 use Faker\Generator as Faker;
 
 $factory->define(Frequency::class, function (Faker $faker) {
-    $url_ids = \App\Url::where('user_id', 1)->pluck('id');
+    $url_ids = \App\Url::where('user_id', 2)->pluck('id');
 
     return [
       'user_id' => 2,

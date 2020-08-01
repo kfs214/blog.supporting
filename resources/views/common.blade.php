@@ -17,7 +17,7 @@
       <a href="{{ route('tags') }}"><li>下書きを加工</li></a>
       <a href="{{ route('test') }}"><li>テスト</li></a>
       @auth
-        <a href="{{ route('settings') }}"><li>設定</li></a>
+        <a href="{{ route('settings.frequency') }}"><li>設定</li></a>
         <a href="{{ route('logout') }}"><li>ログアウト</li></a>
       @else
         <a href="{{ route('login') }}"><li>ログイン</li></a>

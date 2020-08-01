@@ -1,5 +1,5 @@
 @extends('common')
-@section('title', 'テスト')
+@section('title', '取得テストと取得元の管理')
 
 
 @section('content')
@@ -15,12 +15,21 @@
         @enderror
     </div>
     <div class="row">
-      <input type="submit" value="送信">
+      <button>取得テスト</button>
     </div>
   </form>
 </div>
 
 @isset($posts)
+  @auth
+    <div class="content">
+      <form method="POST" action="{{route('settings.url')}}">
+        @csrf
+        <button name="add" value="{{$source}}">このサイトを取得元に追加する</button>
+      </form>
+    </div>
+  @endauth
+
   <div class="content">
     <h2>取得された投稿</h2>
     @foreach($posts as $post)
@@ -32,5 +41,7 @@
     @endforeach
   </div>
 @endisset
+
+<a href="{{route('settings.frequency')}}">投稿設定を管理する</a>
 
 @endsection

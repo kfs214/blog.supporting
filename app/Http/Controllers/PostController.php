@@ -16,16 +16,18 @@ class PostController extends Controller
         'source' => 'required|active_url',
       ]);
 
+      $source = $data['source'];
+
       $client = new Client();
 
-      $sourceUrl = preg_replace('#$[/\s]#', '', $data['source']) . '/wp-json/wp/v2/posts?_fields=title,link&per_page=10';
+      $sourceUrl = preg_replace('#$[/\s]#', '', $source) . '/wp-json/wp/v2/posts?_fields=title,link&per_page=10';
 
       $responseData = $client->request("GET", $sourceUrl);
 
       $posts = json_decode($responseData->getBody()->getContents(), true);
 
       if(count($posts)){
-        return view('test', compact('posts'));
+        return view('test', compact('posts', 'source'));
       }else{
         return view('test')->with('status', '投稿が取得できませんでした');
       }

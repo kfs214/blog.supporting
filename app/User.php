@@ -37,6 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
       return $this->urls()->get(['url'])->pluck('url');
     }
 
+    public function getGroupsAttribute(){
+      return $this->accounts()->where('type', 'email')->get(['account'])->pluck('account');
+    }
+
 
     /**
      * 元からあった系
