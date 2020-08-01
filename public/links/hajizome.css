@@ -17,3 +17,10 @@ textarea{
 .short{
   height: 3em;
 }
+
+.item{
+  width: 98%;
+  padding: 1%;
+  box-shadow: none;
+  border-bottom: dashed 1px var(--main-bg-color);
+}

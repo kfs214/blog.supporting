@@ -20,7 +20,8 @@ Route::prefix('settings')->as('settings.')->group(function(){
   Route::get('', 'HomeController@showSettings')->name('frequency');
   Route::post('', 'HomeController@updateSettings');
 
-  Route::post('url', 'HomeController@updateUrlSettings')->name('url');
+  Route::get('url', 'HomeController@showUrlSettings')->name('url');
+  Route::post('url', 'HomeController@updateUrlSettings');
 
   Route::get('account', 'HomeController@showAccountSettings')->name('account');
   Route::post('account', 'HomeController@updateAccountSettings');

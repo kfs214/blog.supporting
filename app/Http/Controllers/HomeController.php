@@ -56,6 +56,12 @@ class HomeController extends Controller
     }
 
 
+    public function showUrlSettings(){
+      $user = Auth::user();
+
+      return view('settings.url', compact('user'));
+    }
+
     public function updateUrlSettings(){
       dd($request->input());
       $user = Auth::user();

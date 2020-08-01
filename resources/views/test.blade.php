@@ -1,5 +1,5 @@
 @extends('common')
-@section('title', '取得テストと取得元の管理')
+@section('title', '取得テスト')
 
 
 @section('content')
