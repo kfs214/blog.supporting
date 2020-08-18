@@ -1,5 +1,8 @@
 現在
   function settings(), view for it.
+  updateSettings系、バリデーションから入る。DB書き込み行けたらAPI触る。
+  URL追加の動線OK？
+
 
 
 HAjizome  #D9A62E

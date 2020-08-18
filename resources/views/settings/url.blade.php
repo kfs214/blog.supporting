@@ -17,7 +17,6 @@
   <div class="content item">
     <form method="POST">
       @csrf
-      <input type="hidden" value="{{$url->id}}">
       <div class="row">
         <button type="submit" name="delete" value="{{$url->id}}">削除</button>
         {{$url->url}}

@@ -36,6 +36,12 @@ class DatabaseSeeder extends Seeder
         //メルマガ送信先100
         factory(App\Email::class, 100)->create();
 
+        //kfs214.netをサンプルURLに追加
+        factory(App\Url::class)->create([
+          'user_id' => 2,
+          'url' => 'https://kfs214.net',
+        ]);
+
         //取得するURL10
         factory(App\Url::class, 10)->create();
 
