@@ -38,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getGroupsAttribute(){
-      return $this->accounts()->where('type', 'email')->get(['account'])->pluck('account');
+      return $this->accounts()->where('type', 'email')->get(['id', 'account']);
     }
 
 

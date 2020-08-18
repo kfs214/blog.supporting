@@ -19,6 +19,6 @@ class Email extends Model
      * アクセサ
      */
     public function getGroupsAttribute(){
-      return $this->accounts()->get(['account'])->pluck('account');
+      return $this->accounts()->get(['id', 'account']);
     }
 }

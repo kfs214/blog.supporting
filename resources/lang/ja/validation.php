@@ -151,6 +151,7 @@ return [
         'board_name' => '掲示板名',
         'content' => '文字数',
         'email' => 'メールアドレス',
+        'emails.*' => 'メールアドレス',
         'enabled' => '共有先',
         'enabled_accounts.*' => '共有先',
         'name' => 'お名前',

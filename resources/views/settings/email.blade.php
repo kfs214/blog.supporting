@@ -14,14 +14,25 @@
 
 <h3 id="make-group">グループの追加</h3>
 <div class="content">
-  <p>グループを追加することで、グループごとに異なる設定で投稿を共有できます</p>
+  <p>
+    グループを追加することで、グループごとに異なる設定で投稿を共有できます<br>
+    グループの管理は<a href="{{route('settings.account')}}">こちら</a>から。
+  </p>
   @if($user->plan == 'free')
     <a href="route('settings.plan')">有料プランに申し込んでこの機能を利用する</a>
   @else
     <form method="POST">
       @csrf
-      <input type="text" name="add">
+      <input type="text" name="group" required value="{{old('group')}}">
       <button>グループを追加する</button>
+    </form>
+    @error('group')
+      <div class="row">
+          <span class="invalid-feedback">
+            {{$message}}
+          </span>
+      </div>
+    @enderror
   @endif
 </div>
 
@@ -30,17 +41,25 @@
   <div class="content item">
     <form method="POST">
       @csrf
-      <input type="hidden" value="{{$email->email}}">
-      <div class="row">
-        <button type="submit" name="update" value="{{$email->id}}">更新</button>
+
+      @unless($user->plan == 'free')
+        <div class="row">
+          <button type="submit" name="update" value="{{$email->id}}">更新</button>
+      @endunless
+
         <button type="submit" name="delete" value="{{$email->id}}">削除</button>
-      </div>
+
+      @unless($user->plan == 'free')
+        </div>
+      @endunless
 
       <div class="row">
         {{$email->email}}
-        @foreach($user->groups as $group)
-          <label><input type="checkbox" name="belongs" value="{{$group}}"{{$email->groups->contains($group) ? ' checked' : ''}}>{{$group}}</label>
-        @endforeach
+        @unless($user->plan == 'free')
+          @foreach($user->groups as $group)
+            <label><input type="checkbox" name="belongs[]" value="{{$group->id}}"{{$email->groups->pluck('id')->contains($group->id) ? ' checked' : ''}}>{{$group->account}}</label>
+          @endforeach
+        @endunless
       </div>
     </form>
   </div>
@@ -58,18 +77,32 @@
     @csrf
     @for($i = 0; $i < 4; $i++)
       <div class="row">
-        <label>メールアドレス<input type="email" name="emails[]"></label>
-        <select name="groups[]">
-          @forelse($user->groups as $group)
-            <option value="{{$group}}">{{$group}}</option>
-          @empty
-            <option value="default">default</option>
-          @endforelse
-        </select>
+        <label>メールアドレス<input type="email" name="emails[]" value="{{old("emails.$i")}}" {{$i ? '' : 'required'}}></label>
+        @unless($user->plan == 'free')
+          <select name="belongs[]">
+            @forelse($user->groups as $group)
+              <option value="{{$group->id}}">{{$group->account}}</option>
+            @empty
+              <option value="0">default</option>
+            @endforelse
+          </select>
+        @endunless
       </div>
+      @error("emails.$i")
+        <div class="row">
+            <span class="invalid-feedback">
+              {{$message}}
+            </span>
+        </div>
+      @enderror
     @endfor
     <button>追加する</button>
   </form>
 </div>
+
+@forelse($errors->all() as $error)
+  {{$error}}<br>
+@empty
+@endforelse
 
 @endsection

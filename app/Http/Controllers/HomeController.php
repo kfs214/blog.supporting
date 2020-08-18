@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Account;
+use App\Email;
 use App\Frequency;
 use App\Url;
 
@@ -63,7 +65,7 @@ class HomeController extends Controller
           'enabled.*' => 'required|integer',
         ]);
 
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = $user->id;
 
         $enabled = $data['enabled'];
 
@@ -161,10 +163,23 @@ class HomeController extends Controller
     }
 
     public function updateAccountSettings(Request $request){
-      dd($request->input());
       $user = Auth::user();
 
-      return view('settings.account', compact('user'));
+      $data = $request->validate([
+        'delete' => 'required|integer',
+      ]);
+
+      $account_id = $data['delete'];
+
+      if($user->accounts->pluck('id')->contains($account_id)){
+        Account::destroy($account_id);
+
+      }else{
+        return redirect(route('settings.account'), 303)->with('status', '不正な操作です');
+
+      }
+
+      return redirect(route('settings.account'), 303)->with('status', '更新が完了しました');
     }
 
 
@@ -175,10 +190,139 @@ class HomeController extends Controller
     }
 
     public function updateEmailSettings(Request $request){
-      dd($request->input());
       $user = Auth::user();
 
-      return view('settings.email', compact('user'));
+      if($request->delete){
+        $data = $request->validate([
+          'delete' => 'required|integer',
+        ]);
+
+        $email_id = $data['delete'];
+
+        if($user->emails->pluck('id')->contains($email_id)){
+          Email::destroy($email_id);
+
+        }else{
+          return redirect(route('settings.email'), 303)->with('status', '不正な操作です');
+
+        }
+      }elseif($request->update){
+        $data = $request->validate([
+          'update' => 'required|integer',
+          'belongs' => 'nullable|array'
+        ]);
+
+        $email_id = $data['update'];
+        $belongs = $data['belongs'] ?? [];
+
+        foreach($belongs as $belong){
+          if(!$user->groups->pluck('id')->contains($belong)){
+            return redirect(route('settings.email'), 303)->with('status', '不正な操作です');
+          }
+        }
+
+        if($user->emails->pluck('id')->contains($email_id)){
+          Email::find($email_id)->accounts()->sync($belongs);
+
+        }else{
+          return redirect(route('settings.email'), 303)->with('status', '不正な操作です');
+
+        }
+      }elseif($request->emails){
+        if(!$user->groups->count()){
+          $account = new Account;
+
+          $data_to_write = [
+            'user_id' => $user->id,
+            'type' => 'email',
+            'account' => 'default',
+          ];
+
+          $account->fill($data_to_write)->save();
+
+          $default_account_id = $account->id;
+        }
+
+        if($user->plan == 'free'){
+          $data = $request->validate([
+            'emails' => 'required|array',
+            'emails.0' => 'required|email',
+            'emails.*' => 'nullable|email',
+          ]);
+
+        }else{
+          $data = $request->validate([
+            'emails' => 'required|array',
+            'emails.0' => 'required|email',
+            'emails.*' => 'nullable|email',
+            'belongs' => 'required|array',
+            'belongs.*' => 'required_with:emails.*|integer'
+          ]);
+
+          foreach($data['belongs'] as $key => &$belongs){
+            if(!$data['emails'][$key]){
+              unset($data['emails'][$key]);
+              unset($data['belongs'][$key]);
+
+              continue;
+
+            }
+
+            if($belongs){
+              if(!$user->groups->pluck('id')->contains($belongs)){
+                return redirect(route('settings.email'), 303)->with('status', '不正な操作です');
+
+              }
+            }else{
+              $belongs = $default_account_id;
+
+            }
+          }
+
+        }
+
+        foreach($data['emails'] as $key => &$email_address){
+          if(!$email_address){
+            unset($email_address);
+
+            continue;
+
+          }
+
+          $email = new Email;
+
+          $data_to_write = ['email' => $email_address, 'user_id' => $user->id];
+
+          $email->fill($data_to_write)->save();
+
+          if(isset($data['belongs'][$key])){
+            $email->accounts()->attach($data['belongs'][$key]);
+          }
+
+        }
+
+      }elseif($request->group){
+        if($user->plan == 'free'){
+          return redirect(route('settings.email'), 303)->with('status', '不正な操作です');
+
+        }
+
+        $data = $request->validate([
+          'group' => 'required|string'
+        ]);
+
+        $accounts = new Account;
+
+        $data_to_write = [
+          'user_id' => $user->id,
+          'type' => 'email',
+          'account' => $data['group'],
+        ];
+
+        $accounts->fill($data_to_write)->save();
+      }
+
+      return redirect(route('settings.email'), 303)->with('status', '更新が完了しました');
     }
 
     /**
