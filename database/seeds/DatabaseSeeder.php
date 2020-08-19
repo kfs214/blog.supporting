@@ -16,17 +16,17 @@ class DatabaseSeeder extends Seeder
     {
         //自分のアカウントを作成、パスワードは'password'
         factory(App\User::class)->create([
-          'posted_count' => 10, 'plan' => 'standard',
+          'posted_count' => 10, 'plan' => 'ultimate',
           'email' => '1@te.st',
         ]);
 
         factory(App\User::class)->create([
-          'posted_count' => 10, 'plan' => 'free',
+          'posted_count' => 1, 'plan' => 'free',
           'email' => '2@te.st',
         ]);
 
         factory(App\User::class)->create([
-          'posted_count' => 10, 'plan' => 'standard',
+          'posted_count' => 3, 'plan' => 'standard',
           'email' => '3@te.st',
         ]);
 

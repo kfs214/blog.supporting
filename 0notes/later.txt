@@ -1,11 +1,8 @@
 現在
   function settings(), view for it.
   updateSettings系。DB書き込み行けたらAPI触る。
-  URL追加の動線OK？
 
-  URL追加はOK。
-  取得テスト、一旦書いてみて動作確認中。
-
+  テストの日付の初期値は「今日」？
 
 HAjizome  #D9A62E
 仕様

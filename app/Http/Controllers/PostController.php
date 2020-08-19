@@ -27,8 +27,8 @@ class PostController extends Controller
 
     public function test(Request $request){
       if($request->date){
-        $date = $request->date;
         $source = $request->source;
+        $posts = $this->getPosts($source, $request->date);
 
       }else{
         $data = $request->validate([
@@ -36,20 +36,9 @@ class PostController extends Controller
         ]);
         $source = $data['source'];
 
+        $posts = $this->getPosts($data['source']);
+
       }
-
-      $client = new Client();
-
-      $sourceUrl = preg_replace('#$[/\s]#', '', $source) . '/wp-json/wp/v2/posts?_fields=title,link&per_page=10';
-
-      if(isset($date)){
-        // $sourceUrl .= "&after=$date&before=$date";
-        $sourceUrl .= "&after=$date" . "T00:00:00&before=$date" . 'T23:59:59';
-      }
-
-      $responseData = $client->request("GET", $sourceUrl);
-
-      $posts = json_decode($responseData->getBody()->getContents(), true);
 
       $user = Auth::user();
 
@@ -64,5 +53,21 @@ class PostController extends Controller
       }else{
         return redirect(route('test'), 303)->with('status', '投稿が取得できませんでした');
       }
+    }
+
+    public function getPosts($source, $date = null){
+      $client = new Client();
+
+      $sourceUrl = preg_replace('#$[/\s]#', '', $source) . '/wp-json/wp/v2/posts?_fields=title,link&per_page=10';
+
+      if($date){
+        // $sourceUrl .= "&after=$date&before=$date";
+        $sourceUrl .= "&after=$date" . "T00:00:00&before=$date" . 'T23:59:59';
+      }
+
+      $responseData = $client->request("GET", $sourceUrl);
+
+      return json_decode($responseData->getBody()->getContents(), true);
+
     }
 }
