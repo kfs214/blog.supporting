@@ -150,6 +150,7 @@ return [
         'birthday' => '生年月日',
         'board_name' => '掲示板名',
         'content' => '文字数',
+        'date' => '日付',
         'email' => 'メールアドレス',
         'emails.*' => 'メールアドレス',
         'enabled' => '共有先',

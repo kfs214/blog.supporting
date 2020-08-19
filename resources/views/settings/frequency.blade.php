@@ -38,10 +38,10 @@
           <div class="row">
             <input type="number" name="number" placeholder="100" required value="{{old('number')}}">
             <select name="unit">
-              <option value="days" {{old('unit') == 'days' ? 'selected' : ''}}>日</option>
-              <option value="weeks" {{old('unit') == 'weeks' ? 'selected' : ''}}>週間</option>
-              <option value="months" {{old('unit') == 'months' ? 'selected' : ''}}>ヶ月</option>
               <option value="years" {{old('unit') == 'years' ? 'selected' : ''}}>年</option>
+              <option value="months" {{old('unit') == 'months' ? 'selected' : ''}}>ヶ月</option>
+              <option value="weeks" {{old('unit') == 'weeks' ? 'selected' : ''}}>週間</option>
+              <option value="days" {{old('unit') == 'days' ? 'selected' : ''}}>日</option>
             </select>
             前の投稿を送信
           </div>
@@ -81,7 +81,7 @@
       <div class="content">
         @if(!$user->urls->count())
           <div class="row">
-            <a href="{{route('settings.url')}}" target="_blank">
+            <a href="{{route('settings.url')}}">
               <span class="invalid-feedback">
                   <strong>先にURLを設定してください。</strong>
               </span>
@@ -90,7 +90,7 @@
         @endif
         @if(!$user->accounts->count())
           <div class="row">
-            <a href="{{route('settings.account')}}" target="_blank">
+            <a href="{{route('settings.account')}}">
               <span class="invalid-feedback">
                   <strong>先に共有先のアカウントを設定してください。</strong>
               </span>
@@ -118,10 +118,10 @@
         <div class="row">
           <input type="number" name="numbers[{{$key}}]" value="{{$frequency->number}}" {{$errors->has("enabled_accounts.$key") ? 'autofocus' : ''}}>
           <select name="unit">
-            <option value="days" {{$frequency->unit == 'days' ? 'selected' : ''}}>日</option>
-            <option value="weeks" {{$frequency->unit == 'weeks' ? 'selected' : ''}}>週間</option>
-            <option value="months" {{$frequency->unit == 'months' ? 'selected' : ''}}>ヶ月</option>
             <option value="years" {{$frequency->unit == 'years' ? 'selected' : ''}}>年</option>
+            <option value="months" {{$frequency->unit == 'months' ? 'selected' : ''}}>ヶ月</option>
+            <option value="weeks" {{$frequency->unit == 'weeks' ? 'selected' : ''}}>週間</option>
+            <option value="days" {{$frequency->unit == 'days' ? 'selected' : ''}}>日</option>
           </select>
           前の投稿を送信
         </div>
@@ -144,15 +144,25 @@
       </form>
 
       <div class="row">
-        動作確認　
-        <form method="POST" action="{{route('test')}}" target="_blank">
+        動作確認（先に設定を更新してください）
+        <form method="POST" target="_blank">
           @csrf
-          <input type="number" name="year" required placeholder="1980">年
-          <input type="number" name="month" required placeholder="2">月
-          <input type="number" name="day" required placeholder="14">日
+          <input type="hidden" name="frequency_id" value="{{$frequency->id}}">
+          <input type="number" name="year" required placeholder="1980" {{$errors->has('date') ? 'autofocus' : ''}} value="{{old('year')}}">年
+          <input type="number" name="month" required placeholder="2" value="{{old('month')}}">月
+          <input type="number" name="day" required placeholder="14" value="{{old('day')}}">日
           <label>に共有される投稿を<button name="source" value="{{$frequency->url}}">確認</button></label>
         </form>
       </div>
+
+      @error("date")
+        <div class="row">
+          <span class="invalid-feedback">
+            {{$message}}
+          </span>
+        </div>
+      @enderror
+
     </div>
   @empty
     <div class="row">

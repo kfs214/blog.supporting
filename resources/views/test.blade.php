@@ -22,12 +22,14 @@
 
 @isset($posts)
   @auth
-    <div class="content">
-      <form method="POST" action="{{route('settings.url')}}">
-        @csrf
-        <button name="add" value="{{$source}}">このサイトを取得元に追加する</button>
-      </form>
-    </div>
+    @if($new)
+      <div class="content">
+        <form method="POST" action="{{route('settings.url')}}">
+          @csrf
+          <button name="add" value="{{$source}}">このサイトを取得元に追加する</button>
+        </form>
+      </div>
+    @endif
   @endauth
 
   <div class="content">

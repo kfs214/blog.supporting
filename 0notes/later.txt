@@ -3,6 +3,8 @@
   updateSettings系。DB書き込み行けたらAPI触る。
   URL追加の動線OK？
 
+  URL追加はOK。
+  取得テスト、一旦書いてみて動作確認中。
 
 
 HAjizome  #D9A62E

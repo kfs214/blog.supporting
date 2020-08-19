@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
+
 use App\Account;
 use App\Email;
 use App\Frequency;
@@ -115,6 +117,52 @@ class HomeController extends Controller
           return redirect(route('settings.frequency'), 303)->with('status', '不正な操作です');
 
         }
+      }elseif($request->source){
+        $month = $request->month;
+        $day = $request->day;
+
+        if(strlen($month) == 1){
+          $month = '0' . $month;
+        }
+        if(strlen($day) == 1){
+          $day = '0' . $day;
+        }
+
+        $request->merge(['date' => "$request->year-$month-$day"]);
+
+        $data = $request->validate([
+          'source' => 'required|active_url',
+          'date' => 'required|date_format:"Y-m-d"',
+          'frequency_id' => 'required|integer',
+        ]);
+
+        $frequency = Frequency::find($data['frequency_id']);
+
+        $date = new Carbon($data['date']);
+
+        switch($frequency->unit){
+          case 'years':
+            $date->subYears($frequency->number);
+            break;
+
+          case 'months':
+            $date->subMonths($frequency->number);
+            break;
+
+          case 'weeks':
+            $date->subWeeks($frequency->number);
+            break;
+
+          case 'days':
+            $date->subDays($frequency->number);
+            break;
+        }
+
+        session()->flash('source', $data['source']);
+        session()->flash('date', $date->toDateString());
+
+        return redirect(route('test'), 303);
+
       }
 
       if(isset($enabled)){
@@ -135,22 +183,36 @@ class HomeController extends Controller
     public function updateUrlSettings(Request $request){
       $user = Auth::user();
 
-      $data = $request->validate([
-        'delete' => 'required|integer',
-      ]);
+      if($request->add){
+        $data = $request->validate(
+          ['add' => 'required|url'],
+        );
 
-      $url_id = $data['delete'];
+        $url = new Url;
 
-      if($user->urls->pluck('id')->contains($url_id)){
-        Url::destroy($url_id);
+        $url->url = $data['add'];
+        $url->user_id = $user->id;
 
-        Frequency::where(compact('url_id'))->delete();
+        $url->save();
 
       }else{
-        return redirect(route('settings.url'), 303)->with('status', '不正な操作です');
+        $data = $request->validate([
+          'delete' => 'required|integer',
+        ]);
+
+        $url_id = $data['delete'];
+
+        if($user->urls->pluck('id')->contains($url_id)){
+          Url::destroy($url_id);
+
+          Frequency::where(compact('url_id'))->delete();
+
+        }else{
+          return redirect(route('settings.url'), 303)->with('status', '不正な操作です');
+
+        }
 
       }
-
 
       return redirect(route('settings.url'), 303)->with('status', '更新が完了しました');
     }
