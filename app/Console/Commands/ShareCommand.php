@@ -50,7 +50,7 @@ class ShareCommand extends Command
           })->orWhere(function($query){
             $query->where('plan', 'free')->where('posted_count', 0);
           })->pluck('id');
-
+$users_id = [1];
         $frequency_settings = Frequency::whereIn('user_id', $users_id)->get();
 
         if($frequency_settings->count()){
@@ -86,7 +86,7 @@ class ShareCommand extends Command
                 $text = $frequency_setting->number . $unit . "前の投稿\n" .
                   config('hajizome.note') . "\n\n" .
                   $post['title']['rendered'] . "\n" .
-                  $post['excerpt']['rendered'] . "\n";
+                  $post['excerpt']['rendered'];
 
                 $text = preg_replace('/<.*?>/', '', $text);
 
@@ -99,7 +99,7 @@ class ShareCommand extends Command
                   $text = mb_substr($text, 0, $content_len - 1) . '…';
                 }
 
-                $text .= $post['link'];
+                $text .= "\n" . $post['link'];
 
                 $connect = new TwitterOAuth(config('twitter.ck'), config('twitter.cs'), config('twitter.at'), config('twitter.as'));
 
