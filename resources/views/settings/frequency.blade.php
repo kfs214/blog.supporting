@@ -148,9 +148,9 @@
         <form method="POST" target="_blank">
           @csrf
           <input type="hidden" name="frequency_id" value="{{$frequency->id}}">
-          <input type="number" name="year" required placeholder="1980" {{$errors->has('date') ? 'autofocus' : ''}} value="{{old('year')}}">年
-          <input type="number" name="month" required placeholder="2" value="{{old('month')}}">月
-          <input type="number" name="day" required placeholder="14" value="{{old('day')}}">日
+          <input type="number" name="year" required placeholder="1980" {{$errors->has('date') ? 'autofocus' : ''}} value="{{old('year', \Carbon\Carbon::now()->year)}}">年
+          <input type="number" name="month" required placeholder="2" value="{{old('month', \Carbon\Carbon::now()->month)}}">月
+          <input type="number" name="day" required placeholder="14" value="{{old('day', \Carbon\Carbon::now()->day)}}">日
           <label>に共有される投稿を<button name="source" value="{{$frequency->url}}">確認</button></label>
         </form>
       </div>

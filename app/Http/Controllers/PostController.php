@@ -55,10 +55,14 @@ class PostController extends Controller
       }
     }
 
-    public function getPosts($source, $date = null){
+    public function getPosts($source, $date = null, $sharing = false){
       $client = new Client();
 
-      $sourceUrl = preg_replace('#$[/\s]#', '', $source) . '/wp-json/wp/v2/posts?_fields=title,link&per_page=10';
+      $sourceUrl = preg_replace('#$[/\s]#', '', $source) . '/wp-json/wp/v2/posts?per_page=10&_fields=title,link';
+
+      if($sharing){
+        $sourceUrl .= ',excerpt';
+      }
 
       if($date){
         // $sourceUrl .= "&after=$date&before=$date";
