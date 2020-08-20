@@ -114,6 +114,10 @@ class ShareCommand extends Command
                   echo "tweet failed\n";
                 }
               }
+
+              $user = User::find($frequency_setting->user_id);
+              $user->posted_count++;
+              $user->save();
           }
         }
 
