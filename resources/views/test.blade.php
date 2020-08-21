@@ -9,7 +9,7 @@
     <div class="row">
       <h2>投稿の取得をテスト</h2>
       <label>ソースURL
-        <input type="url" name="source" value="{{old('source', session('source', 'https://'))}}" required></label>
+        <input type="url" name="source" value="{{old('source', isset($source) ? $source : 'https://')}}" required></label>
         @error('source')
           <span class="invalid-feedback">{{$message}}</span>
         @enderror
