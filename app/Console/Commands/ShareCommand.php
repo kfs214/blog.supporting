@@ -163,7 +163,7 @@ class ShareCommand extends Command
           echo "tweet failed\n";
         }
       }else{
-        echo "Twitter ==============================\n" . $text . "\n";
+        echo "\n\n=== Twitter ==============================\n" . $text . "\n";
       }
     }
 
@@ -187,12 +187,15 @@ class ShareCommand extends Command
       	],
       ];
 
+      $ch = curl_init('https://api.line.me/v2/bot/message/broadcast');
+
       if(config('app.env') != 'production'){
         $post['to'] = config('line.user_id');
+        $ch = curl_init('https://api.line.me/v2/bot/message/push');
       }
 
       if(config('app.env') != 'production'){
-        echo "LINE ==================================\n";
+        echo "\n\n=== LINE ==================================\n";
         var_dump($post);
         // return 0;
       }
@@ -200,7 +203,6 @@ class ShareCommand extends Command
       $post = json_encode($post);
 
       // HTTPリクエストを設定
-      $ch = curl_init('https://api.line.me/v2/bot/message/push');
       $options = [
       	CURLOPT_CUSTOMREQUEST => 'POST',
       	CURLOPT_HTTPHEADER => $headers,
@@ -229,6 +231,6 @@ class ShareCommand extends Command
       $body = substr($result, $responseHeaderSize);
 
       // 200 だったら OK
-      echo 'line:' . $httpStatus . ' ' . $body;
+      echo 'line:' . $httpStatus . ' ' . $body . "\n";
     }
 }
